@@ -2,10 +2,12 @@
 # pip install -U langchain-ollama
 # pip install streamlit
 
-
-
 from langchain.prompts import ChatPromptTemplate
 from langchain_ollama.llms import OllamaLLM
+
+import streamlit as st
+
+st.title("AD Chatbot using Deepseek-R1")
 
 template = """question: {question} Answer: Generate the answer step by step"""
 
@@ -15,7 +17,7 @@ model = OllamaLLM(model="deepseek-r1")
 
 chain = prompt | model
 
-question = input("Enter your question here: ")
+question = st.text_input("Enter your question here: ")
 
 if question:
     try:
@@ -23,7 +25,9 @@ if question:
 
         response = chain.invoke({"question": question})
 
-        print("Response:", response)
+        #print("Response:", response)
+        st.write("Response:", response)
 
     except Exception as e:
-        print(f"Error: {e}")
+        #print(f"Error: {e}")
+        st.write(f"Error: {e}")
